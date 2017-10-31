@@ -62,7 +62,7 @@ set_repo() {
 check_process() {
     file="/var/run/mycroft-$1.pid"
     pid="$(cat "$file")"
-    ps aux | grep "$pid"
+    [ -n "$pid" ] && ps aux | grep "$pid"
 }
 
 # Usage: check_processes [dead]
