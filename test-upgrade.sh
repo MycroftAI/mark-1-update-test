@@ -119,11 +119,23 @@ check_behavior() {
     wait_for_str_in_log "$2" 'mycroft-*.log'
 }
 
+apt_is_locked() {
+    fuser /var/lib/dpkg/lock >/dev/null 2>&1
+}
+
+wait_for_apt() {
+    if apt_is_locked; then
+        echo "Waiting to obtain dpkg lock file..."
+        while fuser /var/lib/dpkg/lock >/dev/null 2>&1; do echo .; sleep 0.5; done
+    fi
+}
+
 set -e
 
 mkdir -p logs
 
 if [ "$1" != "-s" ]; then
+    run wait_for_apt
     run setup_keys
 
     run set_repo stable
