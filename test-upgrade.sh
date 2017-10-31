@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
 
-log_folder="logs"
 log_dir="./logs"
 
 num_failed=0
@@ -43,10 +42,10 @@ run() {
     set -e
     printf "\r\t\t\t\t\r"
 
-    echo "$log" #> "$log_folder/$cmd.log"
+    echo "$log"
 
     if [ "$code" != "0" ]; then
-        echo "${red}Failed$reset to run $white$cmd_name$reset"
+        echo ":: ${red}FAILED$reset to run $white$cmd_name$reset"
         if [ -n "$log" ]; then
             echo
             echo "${white}Output:$reset $log"
@@ -55,7 +54,7 @@ run() {
         num_failed=$((num_failed + 1))
     else
         num_succeeded=$((num_succeeded + 1))
-        echo "${green}Success$reset running $white$cmd_name$reset"
+        echo ":: ${green}SUCCESS$reset running $white$cmd_name$reset"
     fi
 }
 
