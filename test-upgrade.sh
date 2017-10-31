@@ -100,7 +100,7 @@ wait_for_str_in_log() {
     log_name="$2"
     timeout="${3-10}"
     for i in $(seq 0 0.1 "$timeout"); do
-        if grep -q "$str" "$log_dir/$log_name"; then
+        if grep -q "$str" $log_dir/$log_name; then
             return 0 
         fi
         sleep 0.1
@@ -139,8 +139,8 @@ if [ "$1" != "-s" ]; then
     run setup_keys
 
     run set_repo stable
-    if dpkg --list | grep -q "mycroft-*"; then
-        run sudo apt-get remove -y mycroft-*
+    if dpkg --list | grep -q "mycroft-"; then
+        run sudo apt-get remove -y "mycroft-*"
     fi
     check_processes dead
 
@@ -158,7 +158,7 @@ fi
 
 log_dir="${1:-$log_dir}"
 
-run wait_for_str_in_log "Waiting for wake word" mycroft-voice.log
+run wait_for_str_in_log "Waiting for wake word" mycroft-speech-client.log
 
 run check_behavior "what is the weather" "a high of"
 run check_behavior "what time is it" "[AP]M"
