@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-log_dir="./logs"
+log_dir="/var/logs"
 
 num_failed=0
 num_succeeded=0
@@ -62,8 +62,7 @@ set_repo() {
 check_process() {
     file="/var/run/mycroft-$1.pid"
     pid="$(cat "$file")"
-    num_processes="$(ps aux | grep "$pid" | grep "python.*" | wc -l)"
-    [ -f "$file" ] && ps -p "$pid" && [ "$num_processes" = "1" ]
+    ps aux | grep "$pid"
 }
 
 # Usage: check_processes [dead]
@@ -100,7 +99,7 @@ wait_for_str_in_log() {
     str="$1"
     log_name="$2"
     timeout="${3-10}"
-    for i in $(seq 1 0.1 "$timeout"); do
+    for i in $(seq 0 0.1 "$timeout"); do
         if grep -q "$str" "$log_dir/$log_name"; then
             return 0 
         fi
@@ -117,7 +116,7 @@ check_behavior() {
 
     reset_logs
     send_message 'recognizer_loop:utterance' '{"utterances": ["'"$1"'"]}'
-    wait_for_str_in_log "$2" mycroft-*.log
+    wait_for_str_in_log "$2" 'mycroft-*.log'
 }
 
 set -e
@@ -134,12 +133,12 @@ if [ "$1" != "-s" ]; then
     check_processes dead
 
     run sudo apt-get install -y mycroft-mark-1
-    sleep 3
+
     check_processes
 
     run set_repo unstable
     run sudo apt-get install -y mycroft-mark-1
-    sleep 3
+
     check_processes
 else
     shift
