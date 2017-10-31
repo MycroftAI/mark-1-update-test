@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 log_folder="logs"
-log_dir="/var/logs"
+log_dir="./logs"
 
 num_failed=0
 num_succeeded=0
