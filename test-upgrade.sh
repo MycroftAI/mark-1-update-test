@@ -132,7 +132,7 @@ check_behavior() {
 set -e
 
 mkdir -p logs
-setup_colors
+#setup_colors
 
 if [ "$1" != "-s" ]; then
     run setup_keys
