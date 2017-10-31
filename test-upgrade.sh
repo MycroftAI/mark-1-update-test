@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-log_dir="/var/logs"
+log_dir="/var/log"
 
 num_failed=0
 num_succeeded=0
