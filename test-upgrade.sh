@@ -43,7 +43,7 @@ run() {
     set -e
     printf "\r\t\t\t\t\r"
 
-    echo "$log" > "$log_folder/$cmd.log"
+    echo "$log" #> "$log_folder/$cmd.log"
 
     if [ "$code" != "0" ]; then
         echo "${red}Failed$reset to run $white$cmd_name$reset"
